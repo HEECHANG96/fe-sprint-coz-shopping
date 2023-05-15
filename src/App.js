@@ -1,7 +1,14 @@
 import "./App.css";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 function App() {
-  return <div className="App">초기셋팅 완료!</div>;
+  return (
+    <div className="App">
+      <Header />
+      <Footer />
+    </div>
+  );
 }
 
 export default App;
