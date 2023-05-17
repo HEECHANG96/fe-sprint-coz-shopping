@@ -4,17 +4,29 @@ import Card from "../components/Card";
 
 const MainPage = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [product, setProduct] = useState([]);
+  const [products, setProducts] = useState([]);
   const [apiError, setAPIError] = useState("");
+  const [bookmarkData, setBookmarkData] = useState([]);
+
+  const changeBookmark = (item) => {
+    setBookmarkData((bookmarkData) => {
+      if (bookmarkData.includes(item)) {
+        return bookmarkData.filter((id) => id !== item);
+      } else {
+        return [...bookmarkData, item];
+      }
+    });
+  };
 
   // API 불러오기
   const getProductList = async () => {
     try {
-      let url = `http://cozshopping.codestates-seb.link/api/v1/products?count=2`;
+      let url = `http://cozshopping.codestates-seb.link/api/v1/products?count=4`;
       setIsLoading(true);
       let response = await fetch(url);
       let data = await response.json();
-      setProduct(data);
+
+      setProducts(data);
       setIsLoading(false);
     } catch (err) {
       setAPIError(err.message);
@@ -25,8 +37,6 @@ const MainPage = () => {
   useEffect(() => {
     getProductList();
   }, []);
-
-  console.log("data: ", product);
 
   return (
     <div className="mainpage">
@@ -41,9 +51,14 @@ const MainPage = () => {
           />
         </div>
       ) : !apiError ? (
-        <div className="container">
-          <Card product={product} />
-        </div>
+        <section className="main-container">
+          <div>상품 리스트</div>
+          <Card
+            products={products}
+            changeBookmark={changeBookmark}
+            bookmarkData={bookmarkData}
+          />
+        </section>
       ) : (
         apiError
       )}
