@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import Card from "../components/Card";
+import BookmarkList from "../components/BookmarkList";
 
 const MainPage = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -8,6 +9,7 @@ const MainPage = () => {
   const [apiError, setAPIError] = useState("");
   const [bookmarkData, setBookmarkData] = useState([]);
 
+  // bookmark된 data들을 bookmarkData에 넣어주는 함수
   const changeBookmark = (item) => {
     setBookmarkData((bookmarkData) => {
       if (bookmarkData.includes(item)) {
@@ -52,12 +54,18 @@ const MainPage = () => {
         </div>
       ) : !apiError ? (
         <section className="main-container">
-          <div>상품 리스트</div>
+          <div className="product-list">상품 리스트</div>
           <Card
             products={products}
             changeBookmark={changeBookmark}
             bookmarkData={bookmarkData}
           />
+          {bookmarkData.length !== 0 ? (
+            <div>
+              <div className="bookmark-list">북마크 리스트</div>
+              <BookmarkList bookmarkData={bookmarkData} />
+            </div>
+          ) : null}
         </section>
       ) : (
         apiError
