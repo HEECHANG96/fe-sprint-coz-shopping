@@ -2,12 +2,17 @@ import React, { useState, useEffect } from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import Card from "../components/Card";
 import BookmarkList from "../components/BookmarkList";
+import { dataAction } from "../redux/actions/dataAction";
+import { useDispatch, useSelector } from "react-redux";
 
 const MainPage = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [products, setProducts] = useState([]);
-  const [apiError, setAPIError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [bookmarkData, setBookmarkData] = useState([]);
+  const [bookmarkedData, setBookmarkedData] = useState([]);
+  const [products, setProducts] = useState([]);
+
+  const dispatch = useDispatch();
+  const { fourData } = useSelector((state) => state.data);
 
   // bookmark된 data들을 bookmarkData에 넣어주는 함수
   const changeBookmark = (item) => {
@@ -18,26 +23,27 @@ const MainPage = () => {
         return [...bookmarkData, item];
       }
     });
-  };
-
-  // API 불러오기
-  const getProductList = async () => {
-    try {
-      let url = `http://cozshopping.codestates-seb.link/api/v1/products?count=4`;
-      setIsLoading(true);
-      let response = await fetch(url);
-      let data = await response.json();
-
-      setProducts(data);
-      setIsLoading(false);
-    } catch (err) {
-      setAPIError(err.message);
-      setIsLoading(false);
-    }
+    console.log(bookmarkData);
   };
 
   useEffect(() => {
-    getProductList();
+    setIsLoading(true);
+    dispatch(dataAction.getData());
+    setProducts(fourData);
+    setIsLoading(false);
+  }, []);
+
+  useEffect(() => {
+    let bookmark = localStorage.getItem("bookmark");
+
+    if (bookmark === null) {
+      bookmark = [];
+    } else {
+      bookmark = JSON.parse(bookmark);
+    }
+    bookmark.push(bookmarkData);
+    bookmark = [...bookmark];
+    localStorage.setItem("bookmark", JSON.stringify(bookmark));
   }, []);
 
   return (
@@ -52,7 +58,7 @@ const MainPage = () => {
             data-testid="loader"
           />
         </div>
-      ) : !apiError ? (
+      ) : (
         <section className="main-container">
           <div className="product-list">상품 리스트</div>
           <Card
@@ -60,15 +66,16 @@ const MainPage = () => {
             changeBookmark={changeBookmark}
             bookmarkData={bookmarkData}
           />
-          {bookmarkData.length !== 0 ? (
+          {bookmarkData.length > 0 ? (
             <div>
               <div className="bookmark-list">북마크 리스트</div>
-              <BookmarkList bookmarkData={bookmarkData} />
+              <BookmarkList
+                bookmarkData={bookmarkData}
+                changeBookmark={changeBookmark}
+              />
             </div>
           ) : null}
         </section>
-      ) : (
-        apiError
       )}
     </div>
   );

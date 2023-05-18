@@ -7,6 +7,25 @@ import BookmarkPage from "./pages/BookmarkPage";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
+  // API 불러오기
+  // const getProductList = async () => {
+  //   try {
+  //     let url = `http://cozshopping.codestates-seb.link/api/v1/products`;
+  //     setIsLoading(true);
+  //     let response = await fetch(url);
+  //     let data = await response.json();
+
+  //     setProducts(data);
+  //     setIsLoading(false);
+  //   } catch (err) {
+  //     setAPIError(err.message);
+  //     setIsLoading(false);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   getProductList();
+  // }, []);
   return (
     <div className="App">
       <Header />
