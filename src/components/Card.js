@@ -2,7 +2,7 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 
-const Card = ({ products, changeBookmark, bookmarkData }) => {
+const Card = ({ products }) => {
   return (
     <div>
       <ul className="card-list">
@@ -19,11 +19,8 @@ const Card = ({ products, changeBookmark, bookmarkData }) => {
                   }
                   alt={product.title}
                 />
-                <div
-                  className="product-bookmark"
-                  onClick={() => changeBookmark(product)}
-                >
-                  {bookmarkData.includes(product) ? (
+                <div className="product-bookmark">
+                  {/* {bookmarkData.includes(product) ? (
                     <FontAwesomeIcon
                       icon={faStar}
                       size="lg"
@@ -35,7 +32,7 @@ const Card = ({ products, changeBookmark, bookmarkData }) => {
                       size="lg"
                       style={{ color: "#f1f2f3" }}
                     />
-                  )}
+                  )} */}
                 </div>
               </section>
               <section className="card-info">
