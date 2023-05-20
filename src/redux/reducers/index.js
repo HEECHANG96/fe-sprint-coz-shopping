@@ -1,6 +1,10 @@
 import { combineReducers } from "redux";
-import dataReducer from "./dataReducer";
+import itemReducer from "./itemReducer";
+import notificationReducer from "./notificationReducer";
 
-export default combineReducers({
-  data: dataReducer,
+const rootReducer = combineReducers({
+  itemReducer,
+  notificationReducer,
 });
+
+export default rootReducer;

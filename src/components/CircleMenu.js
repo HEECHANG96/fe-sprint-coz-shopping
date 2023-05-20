@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { circleMenu } from "../circleMenu/circleData";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 const CircleMenuContainer = styled.div`
   display: flex;
@@ -15,26 +15,27 @@ const Type = styled.div`
   margin-top: 24px;
   margin-right: 36px;
   margin-bottom: 52px;
-
-  ${(props) => {
-    props.underline &&
-      css`
-        text-decoration: underline;
-      `;
-  }}
+  cursor: pointer;
+`;
+const CircleMenuImg = styled.img``;
+const Selected = styled.div`
+  border-bottom: ${(props) =>
+    props.title === props.value ? "3px solid rgb(58 28 235)" : ""};
 `;
 
 const CircleMenu = ({ checkDataType }) => {
   const [type, setType] = useState(null);
-  const [isUnderline, setIsUnderline] = useState(false);
+
+  // underline
+  const [currentTab, setCurrentTab] = useState("All");
+  const changeUnderLine = (event) => {
+    setCurrentTab(event);
+    console.log("event", currentTab);
+  };
 
   const typeClick = (type) => {
     setType(type);
     checkDataType(type);
-  };
-
-  const handleClick = () => {
-    setIsUnderline(true);
   };
 
   return (
@@ -46,8 +47,20 @@ const CircleMenu = ({ checkDataType }) => {
             typeClick(el.alt);
           }}
         >
-          <img onClick={() => handleClick()} src={el.icon} alt={el.alt} />
-          <div underline={isUnderline}>{el.type}</div>
+          <CircleMenuImg
+            src={el.icon}
+            alt={el.alt}
+            value={el.alt}
+            title={currentTab}
+            onClick={() => changeUnderLine(el.alt)}
+          />
+          <Selected
+            value={el.alt}
+            title={currentTab}
+            onClick={() => changeUnderLine(el.alt)}
+          >
+            {el.type}
+          </Selected>
         </Type>
       ))}
     </CircleMenuContainer>

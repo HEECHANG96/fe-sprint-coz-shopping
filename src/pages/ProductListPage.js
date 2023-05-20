@@ -37,22 +37,10 @@ const ProductListPage = () => {
 
   return (
     <div>
-      {isLoading ? (
-        <div className="container">
-          <ClipLoader
-            color="#f88c6b"
-            loading={isLoading}
-            size={150}
-            aria-label="Loading Spinner"
-            data-testid="loader"
-          />
-        </div>
-      ) : (
-        <>
-          <CircleMenu checkDataType={checkDataType} />
-          <ProductData products={dataType} />
-        </>
-      )}
+      <>
+        <CircleMenu checkDataType={checkDataType} />
+        <ProductData products={dataType} />
+      </>
     </div>
   );
 };

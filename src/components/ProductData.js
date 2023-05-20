@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const ProductDataContainer = styled.div`
   display: flex;
@@ -71,57 +72,76 @@ const Follower = styled.span`
   font-weight: 400;
 `;
 
-const ProductData = ({ products }) => {
-  const Brand = "Brand";
-  const Product = "Product";
-  const Category = "Category";
-  const Exhibition = "Exhibition";
+export const Brand = "Brand";
+export const Product = "Product";
+export const Category = "Category";
+export const Exhibition = "Exhibition";
+export const ProductData = ({ products }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const clickLoading = () => {
+    setIsLoading();
+  };
   return (
     <ProductDataContainer>
-      <CardList className="card-list">
-        {products.map((el) => (
-          <Card key={`product${el.id}`}>
-            <Container>
-              <ImgStyle
-                className="card-image"
-                src={el.type === Brand ? el.brand_image_url : el.image_url}
-                alt={el.title}
-              />
-            </Container>
-            <CardInfo>
-              <CardInfoFirst>
-                {el.type === Brand && (
-                  <>
-                    <BrandSection>{el.brand_name}</BrandSection>
-                    <InterestedCustomer>관심고객수</InterestedCustomer>
-                  </>
-                )}
-                {[Product, Category, Exhibition].includes(el.type) && (
-                  <Title>
-                    {el.type === Category && "# "}
-                    {el.title}
-                  </Title>
-                )}
-                {el.type === Product && (
-                  <Discount>{el.discountPercentage}%</Discount>
-                )}
-              </CardInfoFirst>
-              <CardInfoSecond>
-                {el.type === Product && (
-                  <Price>
-                    {el.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                    원
-                  </Price>
-                )}
-                {el.type === Brand && (
-                  <Follower>{el.follower.toLocaleString()}명</Follower>
-                )}
-                {el.type === Exhibition && <span>{el.sub_title}</span>}
-              </CardInfoSecond>
-            </CardInfo>
-          </Card>
-        ))}
-      </CardList>
+      {isLoading ? (
+        <div className="container">
+          <ClipLoader
+            color="#f88c6b"
+            loading={isLoading}
+            size={150}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
+        </div>
+      ) : (
+        <CardList className="card-list">
+          {products.map((el) => (
+            <Card key={`product${el.id}`}>
+              <Container>
+                <ImgStyle
+                  className="card-image"
+                  src={el.type === Brand ? el.brand_image_url : el.image_url}
+                  alt={el.title}
+                />
+              </Container>
+              <CardInfo>
+                <CardInfoFirst>
+                  {el.type === Brand && (
+                    <>
+                      <BrandSection>{el.brand_name}</BrandSection>
+                      <InterestedCustomer>관심고객수</InterestedCustomer>
+                    </>
+                  )}
+                  {[Product, Category, Exhibition].includes(el.type) && (
+                    <Title>
+                      {el.type === Category && "# "}
+                      {el.title}
+                    </Title>
+                  )}
+                  {el.type === Product && (
+                    <Discount>{el.discountPercentage}%</Discount>
+                  )}
+                </CardInfoFirst>
+                <CardInfoSecond>
+                  {el.type === Product && (
+                    <Price>
+                      {el.price
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                      원
+                    </Price>
+                  )}
+                  {el.type === Brand && (
+                    <Follower>{el.follower.toLocaleString()}명</Follower>
+                  )}
+                  {el.type === Exhibition && <span>{el.sub_title}</span>}
+                </CardInfoSecond>
+              </CardInfo>
+            </Card>
+          ))}
+        </CardList>
+      )}
     </ProductDataContainer>
   );
 };
