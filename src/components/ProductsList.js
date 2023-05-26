@@ -3,7 +3,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import Card from "./Card";
 import axios from "axios";
 
-function ProductsList() {
+function ProductsList({ productsData }) {
   const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [errorMsg, setErrorMsg] = useState("");
@@ -39,7 +39,11 @@ function ProductsList() {
         <section className="main-container">
           <div className="product-list">상품 리스트</div>
           <ul>
-            {errorMsg ? <div>{errorMsg}</div> : <Card products={products} />}
+            {errorMsg ? (
+              <div>{errorMsg}</div>
+            ) : (
+              <Card key={products.id} products={products} />
+            )}
           </ul>
           {/* {bookmarkData.length > 0 ? (
           <div>

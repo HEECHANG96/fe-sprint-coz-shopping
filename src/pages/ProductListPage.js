@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import ClipLoader from "react-spinners/ClipLoader";
 import axios from "axios";
 import ProductData from "../components/ProductData";
 import CircleMenu from "../components/CircleMenu";

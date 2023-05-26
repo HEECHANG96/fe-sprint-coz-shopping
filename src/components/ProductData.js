@@ -82,6 +82,7 @@ export const ProductData = ({ products }) => {
   const clickLoading = () => {
     setIsLoading();
   };
+
   return (
     <ProductDataContainer>
       {isLoading ? (
